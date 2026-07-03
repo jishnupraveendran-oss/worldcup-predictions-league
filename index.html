@@ -153,7 +153,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
         <input type="text" id="hp-field" name="website" tabindex="-1" autocomplete="off">
       </div>
       <div class="inp-wrap">
-        <input type="text" id="name-input" placeholder="Full Name (e.g. Ahmed Ali)" autocomplete="name" oninput="validateName()" onkeydown="if(event.key==='Enter')goEmail()"/>
+        <input type="text" id="name-input" placeholder="Full Name (e.g. Lionel Messi)" autocomplete="name" oninput="validateName()" onkeydown="if(event.key==='Enter')goEmail()"/>
         <span class="inp-ico">&#128100;</span>
       </div>
       <div id="name-err" class="err" style="display:none">&#9888; Please enter your full name (first and last).</div>
@@ -438,8 +438,6 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     <p>Your predictions have been saved successfully.</p>
     <p>Good luck — may the best predictor win!</p>
     <p style="font-size:12px;color:#6b7f94;margin-top:16px">World Cup Mania Round of 16 2026<br/>Results announced: TBD</p>
-    <div class="bracket-title-bar" style="margin-top:20px;text-align:left">&#127942; Prediction Leaderboard</div>
-    <div id="lb-success"></div>
   </div></div></div>
 </div>
 
@@ -465,8 +463,6 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 
 
 
-      <div class="bracket-title-bar" style="margin-top:20px">&#127942; Prediction Leaderboard</div>
-      <div id="lb-already"></div>
       <p style="font-size:11px;color:#6b7f94;margin-top:18px;text-align:center">✅ One submission per participant — yours is locked in.<br/>World Cup Mania 2026</p>
     </div>
   </div>
@@ -604,7 +600,6 @@ function showAlreadyPage(name, savedPicks){
 
   // Render bracket journey
   renderBracketIn('alreadyBracketGrid', savedPicks, false);
-  renderLeaderboard('lb-already');
   showPage('page-already');
 }
 
@@ -641,129 +636,6 @@ function renderBracketIn(targetId, p, editable){
 // Format: {name:'Full Name', points: NUMBER},
 // Sorted automatically — just update the points values below.
 // Last updated: (set after Round of 32 final results)
-// ============================================================
-const LEADERBOARD_DATA=[
-  {name:'Indira Nadgir',points:49},
-  {name:'Carlyn Llado',points:48},
-  {name:'Rameena Rassak',points:46},
-  {name:'Aaron Fernandes',points:46},
-  {name:'Waleed Albalili',points:46},
-  {name:'Sukant Gupta',points:46},
-  {name:'Ashna Lathif',points:46},
-  {name:'Sai Kiran',points:46},
-  {name:'Kamran Ullah',points:46},
-  {name:'Ahmed Ali',points:44},
-  {name:'Osman Ali',points:44},
-  {name:'Jayakrishnan Ps',points:44},
-  {name:'Mohamed Elshiekh',points:44},
-  {name:'Nh Benyoussef',points:44},
-  {name:'Manish Vashishtha',points:44},
-  {name:'Youssef Sghair',points:44},
-  {name:'Gabriela Montoya',points:43},
-  {name:'Michal Beran',points:43},
-  {name:'Pamela Demaisip',points:43},
-  {name:'Soukaina Rian',points:42},
-  {name:'Shaleen Kulshrestha',points:42},
-  {name:'Sean Cruise',points:42},
-  {name:'Zul Qureshi',points:42},
-  {name:'Athira Saseedharan',points:42},
-  {name:'Salma Adham',points:42},
-  {name:'Abhishek Singh',points:42},
-  {name:'Mishal Khan',points:41},
-  {name:'David Svoboda',points:41},
-  {name:'Hardik Shah',points:41},
-  {name:'Nagendra Hs',points:40},
-  {name:'Sumy Thomas',points:40},
-  {name:'Shameed Majeed',points:38},
-  {name:'Nihat Karakum',points:38},
-  {name:'Sumayya Shareef',points:38},
-  {name:'Bushra Fahad',points:38},
-  {name:'Kaouther Benfadhel',points:38},
-  {name:'Rabeeaa Sawwaf',points:38},
-  {name:'Ibrahim Al-Zadjali',points:37},
-  {name:'Mayasa Rashid',points:37},
-  {name:'Finny George',points:36},
-  {name:'Shaneer Paravantavida',points:36},
-  {name:'Abdullah Al-Sheedi',points:36},
-  {name:'Neena Thomas',points:35},
-  {name:'Shreef Khattab',points:35},
-  {name:'Kahina Souami',points:34},
-  {name:'Simon Basford',points:32},
-  {name:'Shamim Shaik',points:31},
-  {name:'Farag Hussein',points:28},
-  {name:'Eltayeb Adnan',points:27},
-  {name:'Nina Marie Sansano',points:27},
-  {name:'Nadein Babiker',points:27},
-  {name:'Ragy Ahmed',points:24},
-  {name:'Maisoon Hussein',points:24},
-  {name:'Aijaz Ur Rahman',points:24},
-  {name:'Hocine abdellaoui',points:24},
-  {name:'Le Hoang Minh',points:24},
-  {name:'Hicham Cherni',points:22},
-  {name:'Kishan Shaileshbhai',points:22},
-  {name:'Anisa Aksar',points:22},
-  {name:'Omaima Bait Nawira',points:21},
-  {name:'Manasa Mallidi',points:21},
-  {name:'Herminia magat',points:21},
-  {name:'Mohammed Al Zadjali',points:21},
-  {name:'Nabeel Asghar',points:20},
-  {name:'Zabin Shamsi',points:20},
-  {name:'Malek Mahfoudhi',points:20},
-  {name:'Mohamed Mabrouki',points:20},
-  {name:'Kshaunish Gupta',points:20},
-  {name:'Rahul Gill',points:20},
-  {name:'Mahmoud Issa',points:20},
-  {name:'Ali Hassan',points:20},
-  {name:'Melisa Permansu',points:20},
-  {name:'Saddem Benmoussa',points:20},
-  {name:'Lohit Chundi',points:20},
-  {name:'Cyrine Salhi',points:20},
-  {name:'Pia Ganggay',points:20},
-  {name:'Abdullah Al-Ajmi',points:18},
-  {name:'Mustapha Benghachem',points:18},
-  {name:'Hela Morchdi',points:18},
-  {name:'Mohammad Manazir',points:18},
-  {name:'Prasanth Sole',points:18},
-  {name:'Amhar Althaf',points:18},
-  {name:'Abid ali',points:18},
-  {name:'Rozano Planta',points:18},
-  {name:'Antoine Salame',points:18},
-  {name:'Mohamed Zameer',points:16},
-  {name:'Ahmad Alrobeh',points:16},
-  {name:'Muhammad Adil',points:16},
-  {name:'Suddir kadmbat',points:16},
-  {name:'Mihir Mehta',points:16},
-  {name:'Eman Iqbal',points:16},
-  {name:'Sucharita Kumar',points:16},
-  {name:'Diana Al Fara',points:15},
-  {name:'Muhammad Awais',points:15},
-  {name:'Muadh Al-Maimani',points:14},
-  {name:'Hazem Alraqqad',points:14},
-  {name:'Hany Azer',points:14},
-  {name:'Sushma Gurumurthy',points:14},
-  {name:'Jitendra Sah',points:14},
-  {name:'Rania Mechichi',points:12},
-  {name:'Mariem Chaaben',points:12},
-  {name:'Nourchene Khedri',points:10},
-  {name:'Noor Ali',points:10},
-  {name:'Lija Nandanwar',points:8},
-  {name:'Rifnas',points:8},
-  {name:'Petr Klimes',points:6}
-];
-function _buildLB(data,showAll){
-  var sorted=data.slice().sort(function(a,b){return b.points-a.points||a.name.localeCompare(b.name);});
-  var rank=0,prev=null;
-  sorted.forEach(function(r,i){if(prev===null||r.points!==prev){rank=i+1;prev=r.points;}r._rank=rank;});
-  var visible=showAll?sorted:sorted.slice(0,10);
-  var medals={1:'&#129351;',2:'&#129352;',3:'&#129353;'};
-  var rows='';
-  visible.forEach(function(r,i){rows+='<tr class="'+(i%2?'lb-alt':'')+'"><td class="lb-rank">'+(medals[r._rank]||'#'+r._rank)+'</td><td class="lb-name">'+r.name+'</td><td class="lb-pts">'+r.points+' pts</td></tr>';});
-  var btn=sorted.length>10?(showAll?'<button class="lb-toggle-btn" onclick="_collapseLB(this)">Minimize &#9650;</button>':'<button class="lb-toggle-btn" onclick="_expandLB(this)">View More &#9660;</button>'):'';
-  return '<div class="lb-outer"><table class="lb-table"><thead><tr><th>Rank</th><th>Name</th><th style="text-align:right">Points</th></tr></thead><tbody>'+rows+'</tbody></table>'+btn+'</div>';
-}
-function _expandLB(btn){var o=btn.closest('.lb-outer');if(o)o.outerHTML=_buildLB(LEADERBOARD_DATA,true);}
-function _collapseLB(btn){var o=btn.closest('.lb-outer');if(o)o.outerHTML=_buildLB(LEADERBOARD_DATA,false);}
-function renderLeaderboard(targetId){var el=document.getElementById(targetId);if(!el)return;el.innerHTML=LEADERBOARD_DATA.length?_buildLB(LEADERBOARD_DATA,false):'';}
 function doSubmit(){
   var submitName  = window.userName  || sessionStorage.getItem('r16_name')  || '';
   const btn=document.getElementById('sub-btn');
@@ -802,7 +674,6 @@ function doSubmit(){
       if(data&&data.msg==='saved'){
         markDone();var _sn=document.getElementById('success-name');
         if(_sn)_sn.textContent=submitName?'Welcome, '+submitName+'!':'';
-        renderLeaderboard('lb-success');renderLeaderboard('lb-success');
       showPage('page-success');
       }else if(data&&data.msg==='already_submitted'){
         showAlreadyPage(submitName,picks);
