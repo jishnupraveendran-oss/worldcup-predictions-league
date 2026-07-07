@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>World Cup Mania · Round of 16 Predictions 2026</title>
+<title>World Cup Mania · Quarterfinals Predictions 2026</title>
 <style>
 
 
@@ -142,23 +142,33 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     <div class="hero">
       <div>
         <div class="hero-kicker">🏆 Prediction League</div>
-        <h1>World Cup Mania<br/>Round of 16</h1>
+        <h1>World Cup Mania<br/>Quarterfinals</h1>
         <p>Predict the winner of each match. One entry per person.</p>
       </div>
     </div>
     <div class="card">
-      <div style="text-align:center;padding:16px 0 8px">
-        <div style="font-size:52px;margin-bottom:10px">🔒</div>
-        <div class="card-title" style="font-size:20px">Predictions Closed</div>
-        <div class="card-sub" style="margin-bottom:0">Round of 16 predictions are no longer being accepted.</div>
+      <div class="card-title">Enter Your Details</div>
+      <div class="card-sub">Enter your full name to get started.</div>
+      <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+        <input type="text" id="hp-field" name="website" tabindex="-1" autocomplete="off">
       </div>
-      <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:14px;padding:18px 20px;margin:16px 0;color:#fff;text-align:center">
-        <div style="font-size:13px;color:#a0aec0;margin-bottom:4px">Next Round</div>
-        <div style="font-size:17px;font-weight:800;color:#f6c90e">Round of 8 opens 8 July, 11:00 AM</div>
+      <div class="inp-wrap">
+        <input type="text" id="name-input" placeholder="Full Name (e.g. Ahmed Ali)" autocomplete="name" oninput="validateName()" onkeydown="if(event.key==='Enter')goEmail()"/>
+        <span class="inp-ico">&#128100;</span>
       </div>
-      <div style="background:rgba(246,201,14,.08);border:1px solid rgba(246,201,14,.25);border-radius:10px;padding:12px 16px;margin:0 0 12px;font-size:13px;color:#f6c90e;text-align:center">
-        📊 &nbsp;<strong>Leaderboard:</strong> Check the Teams channel for daily updates
+      <div id="name-err" class="err" style="display:none">&#9888; Please enter your full name (first and last).</div>
+      <div class="rules">
+        <div class="rule"><div class="rule-ico">1️⃣</div><h4>One Entry</h4><p>One submission per person</p></div>
+        <div class="rule"><div class="rule-ico">⚽</div><h4>4 Matches</h4><p>Predict the winner of each match</p></div>
+        <div class="rule"><div class="rule-ico">🏆</div><h4>Win Prizes</h4><p>Best predictor wins rewards</p></div>
       </div>
+      <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:12px 16px;margin:12px 0;font-size:13px;color:#92400e">
+        📅 &nbsp;<strong>Form closes:</strong> TBD
+      </div>
+      <div style="background:rgba(246,201,14,.08);border:1px solid rgba(246,201,14,.25);border-radius:10px;padding:12px 16px;margin:0 0 12px;font-size:13px;color:#f6c90e">
+        📊 &nbsp;<strong>Leaderboard:</strong> Updated daily and posted in the Teams channel
+      </div>
+      <button class="btn pri" id="email-btn" onclick="goEmail()">Start Predicting →</button>
     </div>
   </div>
 </div>
@@ -167,17 +177,17 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 <!-- Match M1 -->
 <div class="pg" id="page-match-M1">
   <div class="grp-hero">
-    <div class="kicker">Round of 16 · Match 1 of 8</div>
-    <h2>Match 1: Canada vs Morocco</h2>
+    <div class="kicker">Quarterfinals · Match 1 of 4</div>
+    <h2>Match 1: France vs Morocco</h2>
   </div>
   <div class="wrap"><div class="card">
     <div class="card-title">Who wins?</div>
     <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M1" onclick="selectWinner('M1','Canada',this)">
-        <input type="radio" name="match_M1" value="Canada"/>
+      <label class="flag-opt" data-match="M1" onclick="selectWinner('M1','France',this)">
+        <input type="radio" name="match_M1" value="France"/>
         <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/ca.png" alt="Canada" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Canada</span>
+        <img src="https://flagcdn.com/w80/fr.png" alt="France" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
+        <span class="match-team">France</span>
       </label>
       <label class="flag-opt" data-match="M1" onclick="selectWinner('M1','Morocco',this)">
         <input type="radio" name="match_M1" value="Morocco"/>
@@ -186,8 +196,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
         <span class="match-team">Morocco</span>
       </label>
     </div>
-    <div class="warn" id="warn-M1">⚠️ Please select a winner to continue.</div>
-
+    <div class="warn" id="warn-M1">Please select a winner to continue.</div>
     <div class="nav">
       <button class="btn sec" onclick="backMatch('M1')">← Back</button>
       <button class="btn pri" onclick="nextMatch('M1')">Next →</button>
@@ -197,27 +206,26 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 <!-- Match M2 -->
 <div class="pg" id="page-match-M2">
   <div class="grp-hero">
-    <div class="kicker">Round of 16 · Match 2 of 8</div>
-    <h2>Match 2: Paraguay vs France</h2>
+    <div class="kicker">Quarterfinals · Match 2 of 4</div>
+    <h2>Match 2: Spain vs Belgium</h2>
   </div>
   <div class="wrap"><div class="card">
     <div class="card-title">Who wins?</div>
     <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M2" onclick="selectWinner('M2','Paraguay',this)">
-        <input type="radio" name="match_M2" value="Paraguay"/>
+      <label class="flag-opt" data-match="M2" onclick="selectWinner('M2','Spain',this)">
+        <input type="radio" name="match_M2" value="Spain"/>
         <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/py.png" alt="Paraguay" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Paraguay</span>
+        <img src="https://flagcdn.com/w80/es.png" alt="Spain" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
+        <span class="match-team">Spain</span>
       </label>
-      <label class="flag-opt" data-match="M2" onclick="selectWinner('M2','France',this)">
-        <input type="radio" name="match_M2" value="France"/>
+      <label class="flag-opt" data-match="M2" onclick="selectWinner('M2','Belgium',this)">
+        <input type="radio" name="match_M2" value="Belgium"/>
         <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/fr.png" alt="France" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">France</span>
+        <img src="https://flagcdn.com/w80/be.png" alt="Belgium" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
+        <span class="match-team">Belgium</span>
       </label>
     </div>
-    <div class="warn" id="warn-M2">⚠️ Please select a winner to continue.</div>
-
+    <div class="warn" id="warn-M2">Please select a winner to continue.</div>
     <div class="nav">
       <button class="btn sec" onclick="backMatch('M2')">← Back</button>
       <button class="btn pri" onclick="nextMatch('M2')">Next →</button>
@@ -227,27 +235,26 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 <!-- Match M3 -->
 <div class="pg" id="page-match-M3">
   <div class="grp-hero">
-    <div class="kicker">Round of 16 · Match 3 of 8</div>
-    <h2>Match 3: USA vs Belgium</h2>
+    <div class="kicker">Quarterfinals · Match 3 of 4</div>
+    <h2>Match 3: England vs Norway</h2>
   </div>
   <div class="wrap"><div class="card">
     <div class="card-title">Who wins?</div>
     <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M3" onclick="selectWinner('M3','USA',this)">
-        <input type="radio" name="match_M3" value="USA"/>
+      <label class="flag-opt" data-match="M3" onclick="selectWinner('M3','England',this)">
+        <input type="radio" name="match_M3" value="England"/>
         <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/us.png" alt="USA" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">USA</span>
+        <img src="https://flagcdn.com/w80/gb-eng.png" alt="England" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
+        <span class="match-team">England</span>
       </label>
-      <label class="flag-opt" data-match="M3" onclick="selectWinner('M3','Belgium',this)">
-        <input type="radio" name="match_M3" value="Belgium"/>
+      <label class="flag-opt" data-match="M3" onclick="selectWinner('M3','Norway',this)">
+        <input type="radio" name="match_M3" value="Norway"/>
         <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/be.png" alt="Belgium" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Belgium</span>
+        <img src="https://flagcdn.com/w80/no.png" alt="Norway" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
+        <span class="match-team">Norway</span>
       </label>
     </div>
-    <div class="warn" id="warn-M3">⚠️ Please select a winner to continue.</div>
-
+    <div class="warn" id="warn-M3">Please select a winner to continue.</div>
     <div class="nav">
       <button class="btn sec" onclick="backMatch('M3')">← Back</button>
       <button class="btn pri" onclick="nextMatch('M3')">Next →</button>
@@ -257,150 +264,29 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 <!-- Match M4 -->
 <div class="pg" id="page-match-M4">
   <div class="grp-hero">
-    <div class="kicker">Round of 16 · Match 4 of 8</div>
-    <h2>Match 4: Portugal vs Spain</h2>
+    <div class="kicker">Quarterfinals · Match 4 of 4</div>
+    <h2>Match 4: TBD vs TBD</h2>
   </div>
   <div class="wrap"><div class="card">
     <div class="card-title">Who wins?</div>
     <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M4" onclick="selectWinner('M4','Portugal',this)">
-        <input type="radio" name="match_M4" value="Portugal"/>
+      <label class="flag-opt" data-match="M4" onclick="selectWinner('M4','TBD_A',this)">
+        <input type="radio" name="match_M4" value="TBD_A"/>
         <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/pt.png" alt="Portugal" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Portugal</span>
+        <div style="width:80px;height:54px;border-radius:8px;background:#1a2a3a;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:11px;color:#6b7f94;">TBD</div>
+        <span class="match-team">TBD</span>
       </label>
-      <label class="flag-opt" data-match="M4" onclick="selectWinner('M4','Spain',this)">
-        <input type="radio" name="match_M4" value="Spain"/>
+      <label class="flag-opt" data-match="M4" onclick="selectWinner('M4','TBD_B',this)">
+        <input type="radio" name="match_M4" value="TBD_B"/>
         <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/es.png" alt="Spain" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Spain</span>
+        <div style="width:80px;height:54px;border-radius:8px;background:#1a2a3a;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:11px;color:#6b7f94;">TBD</div>
+        <span class="match-team">TBD</span>
       </label>
     </div>
-    <div class="warn" id="warn-M4">⚠️ Please select a winner to continue.</div>
-
+    <div class="warn" id="warn-M4">Please select a winner to continue.</div>
     <div class="nav">
       <button class="btn sec" onclick="backMatch('M4')">← Back</button>
       <button class="btn pri" onclick="nextMatch('M4')">Next →</button>
-    </div>
-  </div></div>
-</div>
-<!-- Match M5 -->
-<div class="pg" id="page-match-M5">
-  <div class="grp-hero">
-    <div class="kicker">Round of 16 · Match 5 of 8</div>
-    <h2>Match 5: Brazil vs Norway</h2>
-  </div>
-  <div class="wrap"><div class="card">
-    <div class="card-title">Who wins?</div>
-    <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M5" onclick="selectWinner('M5','Brazil',this)">
-        <input type="radio" name="match_M5" value="Brazil"/>
-        <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/br.png" alt="Brazil" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Brazil</span>
-      </label>
-      <label class="flag-opt" data-match="M5" onclick="selectWinner('M5','Norway',this)">
-        <input type="radio" name="match_M5" value="Norway"/>
-        <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/no.png" alt="Norway" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Norway</span>
-      </label>
-    </div>
-    <div class="warn" id="warn-M5">⚠️ Please select a winner to continue.</div>
-
-    <div class="nav">
-      <button class="btn sec" onclick="backMatch('M5')">← Back</button>
-      <button class="btn pri" onclick="nextMatch('M5')">Next →</button>
-    </div>
-  </div></div>
-</div>
-<!-- Match M6 -->
-<div class="pg" id="page-match-M6">
-  <div class="grp-hero">
-    <div class="kicker">Round of 16 · Match 6 of 8</div>
-    <h2>Match 6: Mexico vs England</h2>
-  </div>
-  <div class="wrap"><div class="card">
-    <div class="card-title">Who wins?</div>
-    <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M6" onclick="selectWinner('M6','Mexico',this)">
-        <input type="radio" name="match_M6" value="Mexico"/>
-        <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/mx.png" alt="Mexico" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Mexico</span>
-      </label>
-      <label class="flag-opt" data-match="M6" onclick="selectWinner('M6','England',this)">
-        <input type="radio" name="match_M6" value="England"/>
-        <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/gb-eng.png" alt="England" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">England</span>
-      </label>
-    </div>
-    <div class="warn" id="warn-M6">⚠️ Please select a winner to continue.</div>
-
-    <div class="nav">
-      <button class="btn sec" onclick="backMatch('M6')">← Back</button>
-      <button class="btn pri" onclick="nextMatch('M6')">Next →</button>
-    </div>
-  </div></div>
-</div>
-<!-- Match M7 -->
-<div class="pg" id="page-match-M7">
-  <div class="grp-hero">
-    <div class="kicker">Round of 16 · Match 7 of 8</div>
-    <h2>Match 7: Switzerland vs Colombia</h2>
-  </div>
-  <div class="wrap"><div class="card">
-    <div class="card-title">Who wins?</div>
-    <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M7" onclick="selectWinner('M7','Switzerland',this)">
-        <input type="radio" name="match_M7" value="Switzerland"/>
-        <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/ch.png" alt="Switzerland" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Switzerland</span>
-      </label>
-      <label class="flag-opt" data-match="M7" onclick="selectWinner('M7','Colombia',this)">
-        <input type="radio" name="match_M7" value="Colombia"/>
-        <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/co.png" alt="Colombia" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Colombia</span>
-      </label>
-    </div>
-    <div class="warn" id="warn-M7">⚠️ Please select a winner to continue.</div>
-
-    <div class="nav">
-      <button class="btn sec" onclick="backMatch('M7')">← Back</button>
-      <button class="btn pri" onclick="nextMatch('M7')">Next →</button>
-    </div>
-  </div></div>
-</div>
-<!-- Match M8 -->
-<div class="pg" id="page-match-M8">
-  <div class="grp-hero">
-    <div class="kicker">Round of 16 · Match 8 of 8</div>
-    <h2>Match 8: Argentina vs Egypt</h2>
-  </div>
-  <div class="wrap"><div class="card">
-    <div class="card-title">Who wins?</div>
-    <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M8" onclick="selectWinner('M8','Argentina',this)">
-        <input type="radio" name="match_M8" value="Argentina"/>
-        <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/ar.png" alt="Argentina" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Argentina</span>
-      </label>
-      <label class="flag-opt" data-match="M8" onclick="selectWinner('M8','Egypt',this)">
-        <input type="radio" name="match_M8" value="Egypt"/>
-        <span class="chk">✓</span>
-        <img src="https://flagcdn.com/w80/eg.png" alt="Egypt" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
-        <span class="match-team">Egypt</span>
-      </label>
-    </div>
-    <div class="warn" id="warn-M8">⚠️ Please select a winner to continue.</div>
-
-    <div class="nav">
-      <button class="btn sec" onclick="backMatch('M8')">← Back</button>
-      <button class="btn pri" onclick="nextMatch('M8')">Next →</button>
     </div>
   </div></div>
 </div>
@@ -410,7 +296,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     <div class="card-title">Your Prediction Journey</div>
     <div class="rev-email" id="rev-email"></div>
     <div class="bracket-section">
-      <div class="bracket-title-bar">⚽ Round of 16 → Quarterfinals Journey</div>
+      <div class="bracket-title-bar">⚽ Quarterfinals → Semifinals Journey</div>
       <div class="bracket-graphic"><div class="bracket-grid" id="bracketGrid"></div></div>
     </div>
         <div class="nav" style="margin-top:18px">
@@ -433,7 +319,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
       <p style="font-size:13px;color:#f6c90e;font-weight:700;margin:0 0 4px">📊 Leaderboard Updates Daily</p>
       <p style="font-size:12px;color:#b8c4d1;margin:0">The leaderboard is posted daily in the Teams channel — keep an eye out to track your ranking.</p>
     </div>
-    <p style="font-size:12px;color:#6b7f94;margin-top:16px">World Cup Mania Round of 16 2026<br/>The next prediction form will open on 8 July at 11:00 AM.</p>
+    <p style="font-size:12px;color:#6b7f94;margin-top:16px">World Cup Mania Quarterfinals 2026<br/>Results announced: TBD</p>
   </div></div></div>
 </div>
 
@@ -450,11 +336,11 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
       <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:14px;padding:18px 20px;margin:0 0 22px;color:#fff;text-align:center">
         <div style="font-size:22px;margin-bottom:6px">🔒</div>
         <p style="font-weight:700;margin:0 0 4px;font-size:15px">Your entry is locked in — only one submission allowed.</p>
-        <p style="font-size:13px;color:#a0aec0;margin:0">The next prediction form will open on <strong style="color:#f6c90e">8 July at 11:00 AM</strong></p>
+        <p style="font-size:13px;color:#a0aec0;margin:0">Results for the Quarterfinals will be announced <strong style="color:#f6c90e">TBD</strong></p>
       </div>
 
       <!-- Your Journey Bracket -->
-      <div class="bracket-title-bar">⚽ Your Round of 16 → Quarterfinals Journey</div>
+      <div class="bracket-title-bar">⚽ Your Quarterfinals → Semifinals Journey</div>
       <div class="bracket-graphic"><div class="bracket-grid" id="alreadyBracketGrid"></div></div>
 
       <div style="background:rgba(246,201,14,.1);border:1px solid rgba(246,201,14,.3);border-radius:12px;padding:14px 16px;margin:0 0 18px;text-align:left">
@@ -469,25 +355,21 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQgGx0Qfmr1IJAQh3n8SU2uePX68k54Vf9gOn0ET0b_iUi4UnUZTybOiJBgwniV35GJw/exec';
-const MATCH_KEYS = ["M1","M2","M3","M4","M5","M6","M7","M8"];
-const SHEET_TAB  = 'R16_Responses';
+const MATCH_KEYS = ["M1","M2","M3","M4"];
+const SHEET_TAB  = 'QF_Responses';
 const _k = (s=>Array.from(s).map((c,i)=>String.fromCharCode(c.charCodeAt(0)^(i%7+3))).join(''))(atob('ZjQxPzFqazVmMjBia2xgZjFnYTxsYDBkZDAwOmU2NWU/bWxgNDQ+MTE9YTdhNGQ8'));
 
 const MATCH_META = {
-  M1:{label:"Match 1",teams:["Canada","Morocco"],flag1:"https://flagcdn.com/w80/ca.png",flag2:"https://flagcdn.com/w80/ma.png"},
-  M2:{label:"Match 2",teams:["Paraguay","France"],flag1:"https://flagcdn.com/w80/py.png",flag2:"https://flagcdn.com/w80/fr.png"},
-  M3:{label:"Match 3",teams:["USA","Belgium"],flag1:"https://flagcdn.com/w80/us.png",flag2:"https://flagcdn.com/w80/be.png"},
-  M4:{label:"Match 4",teams:["Portugal","Spain"],flag1:"https://flagcdn.com/w80/pt.png",flag2:"https://flagcdn.com/w80/es.png"},
-  M5:{label:"Match 5",teams:["Brazil","Norway"],flag1:"https://flagcdn.com/w80/br.png",flag2:"https://flagcdn.com/w80/no.png"},
-  M6:{label:"Match 6",teams:["Mexico","England"],flag1:"https://flagcdn.com/w80/mx.png",flag2:"https://flagcdn.com/w80/gb-eng.png"},
-  M7:{label:"Match 7",teams:["Switzerland","Colombia"],flag1:"https://flagcdn.com/w80/ch.png",flag2:"https://flagcdn.com/w80/co.png"},
-  M8:{label:"Match 8",teams:["Argentina","Egypt"],flag1:"https://flagcdn.com/w80/ar.png",flag2:"https://flagcdn.com/w80/eg.png"}
+  M1:{label:"Match 1",teams:["France","Morocco"],flag1:"https://flagcdn.com/w80/fr.png",flag2:"https://flagcdn.com/w80/ma.png"},
+  M2:{label:"Match 2",teams:["Spain","Belgium"],flag1:"https://flagcdn.com/w80/es.png",flag2:"https://flagcdn.com/w80/be.png"},
+  M3:{label:"Match 3",teams:["England","Norway"],flag1:"https://flagcdn.com/w80/gb-eng.png",flag2:"https://flagcdn.com/w80/no.png"},
+  M4:{label:"Match 4",teams:["TBD","TBD"],flag1:"",flag2:""}
 };
-const R16_PAIRS=[['M1','M2'],['M3','M4'],['M5','M6'],['M7','M8']];
+const R16_PAIRS=[['M1','M2'],['M3','M4']];
 
 window.userName='';window.currentStep=0;
 const picks={};
-const STORAGE_KEY='r16_done_v1';
+const STORAGE_KEY='qf_done_v1';
 
 function dbg(msg){
   if(new URLSearchParams(window.location.search).get('debug')!=='1')return;
@@ -533,7 +415,7 @@ function goEmail(){
   }
   window.formStartTime=Date.now();
   window.userName=toTitleCase(document.getElementById('name-input').value);
-  sessionStorage.setItem('r16_name',window.userName);
+  sessionStorage.setItem('qf_name',window.userName);
   try{
     var cached=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
     var saved=cached[window.userName.toLowerCase()];
@@ -595,7 +477,7 @@ function buildReview(){
 }
 
 function showAlreadyPage(name, savedPicks){
-  var _an=document.getElementById('already-name');if(_an)_an.textContent=name||window.userName||sessionStorage.getItem('r16_name')||'';
+  var _an=document.getElementById('already-name');if(_an)_an.textContent=name||window.userName||sessionStorage.getItem('qf_name')||'';
 
   // Render bracket journey
   renderBracketIn('alreadyBracketGrid', savedPicks, false);
@@ -618,7 +500,7 @@ function renderBracketIn(targetId, p, editable){
       '<div class="b-team '+(w===t2?'winner':'')+'">'+flagImg(f2)+t2+(w===t2?' ✓':'')+'</div>'+
     '</div>';
   }).join('');
-  const centerHtml='<div class="b-center-label">QUARTERFINALS</div>'+
+  const centerHtml='<div class="b-center-label">SEMIFINALS</div>'+
     R16_PAIRS.map(([a,b])=>{
       const _ta=MATCH_META[a]?MATCH_META[a].teams:[];
       const _tb=MATCH_META[b]?MATCH_META[b].teams:[];
@@ -638,7 +520,7 @@ function renderBracketIn(targetId, p, editable){
 // Sorted automatically — just update the points values below.
 // Last updated: (set after Round of 32 final results)
 function doSubmit(){
-  var submitName  = window.userName  || sessionStorage.getItem('r16_name')  || '';
+  var submitName  = window.userName  || sessionStorage.getItem('qf_name')  || '';
   const btn=document.getElementById('sub-btn');
   const errBoxPre=document.getElementById('submit-err');
   const hpVal=(document.getElementById('hp-field')||{}).value||'';
