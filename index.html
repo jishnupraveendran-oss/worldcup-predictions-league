@@ -265,22 +265,22 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 <div class="pg" id="page-match-M4">
   <div class="grp-hero">
     <div class="kicker">Quarterfinals · Match 4 of 4</div>
-    <h2>Match 4: TBD vs TBD</h2>
+    <h2>Match 4: Switzerland vs Argentina</h2>
   </div>
   <div class="wrap"><div class="card">
     <div class="card-title">Who wins?</div>
     <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M4" onclick="selectWinner('M4','TBD_A',this)">
-        <input type="radio" name="match_M4" value="TBD_A"/>
+      <label class="flag-opt" data-match="M4" onclick="selectWinner('M4','Switzerland',this)">
+        <input type="radio" name="match_M4" value="Switzerland"/>
         <span class="chk">✓</span>
-        <div style="width:80px;height:54px;border-radius:8px;background:#1a2a3a;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:11px;color:#6b7f94;">TBD</div>
-        <span class="match-team">TBD</span>
+        <img src="https://flagcdn.com/w80/ch.png" alt="Switzerland" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
+        <span class="match-team">Switzerland</span>
       </label>
-      <label class="flag-opt" data-match="M4" onclick="selectWinner('M4','TBD_B',this)">
-        <input type="radio" name="match_M4" value="TBD_B"/>
+      <label class="flag-opt" data-match="M4" onclick="selectWinner('M4','Argentina',this)">
+        <input type="radio" name="match_M4" value="Argentina"/>
         <span class="chk">✓</span>
-        <div style="width:80px;height:54px;border-radius:8px;background:#1a2a3a;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:11px;color:#6b7f94;">TBD</div>
-        <span class="match-team">TBD</span>
+        <img src="https://flagcdn.com/w80/ar.png" alt="Argentina" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
+        <span class="match-team">Argentina</span>
       </label>
     </div>
     <div class="warn" id="warn-M4">Please select a winner to continue.</div>
@@ -363,7 +363,7 @@ const MATCH_META = {
   M1:{label:"Match 1",teams:["France","Morocco"],flag1:"https://flagcdn.com/w80/fr.png",flag2:"https://flagcdn.com/w80/ma.png"},
   M2:{label:"Match 2",teams:["Spain","Belgium"],flag1:"https://flagcdn.com/w80/es.png",flag2:"https://flagcdn.com/w80/be.png"},
   M3:{label:"Match 3",teams:["England","Norway"],flag1:"https://flagcdn.com/w80/gb-eng.png",flag2:"https://flagcdn.com/w80/no.png"},
-  M4:{label:"Match 4",teams:["TBD","TBD"],flag1:"",flag2:""}
+  M4:{label:"Match 4",teams:["Switzerland","Argentina"],flag1:"https://flagcdn.com/w80/ch.png",flag2:"https://flagcdn.com/w80/ar.png"}
 };
 const R16_PAIRS=[['M1','M2'],['M3','M4']];
 
