@@ -102,7 +102,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 .bracket-grid{display:grid;grid-template-columns:1fr 180px 1fr;gap:8px;min-width:500px}
 .b-col{display:flex;flex-direction:column;gap:8px}
 .b-match{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:8px 10px}
-.b-score{font-size:10px;color:#f6c90e;font-weight:700;text-align:center;margin-top:4px;letter-spacing:.03em}
+.b-score{font-size:12px;color:#0d1728;font-weight:800;text-align:center;margin-top:6px;letter-spacing:.03em;background:#f6c90e;border-radius:8px;padding:4px 6px}
 .b-mid{font-size:9px;font-weight:800;color:#f6c90e;letter-spacing:.06em;margin-bottom:5px}
 .b-team{font-size:11px;font-weight:600;color:#fff;padding:4px 8px;border-radius:6px;margin:2px 0}
 .b-team.winner{background:rgba(246,201,14,.2);border:1px solid rgba(246,201,14,.4);color:#f6c90e}
@@ -160,14 +160,17 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
         <input type="text" id="hp-field" name="website" tabindex="-1" autocomplete="off">
       </div>
       <div class="inp-wrap">
-        <input type="text" id="name-input" placeholder="Full Name (e.g. Ahmed Ali)" autocomplete="name" oninput="validateName()" onkeydown="if(event.key==='Enter')goEmail()"/>
+        <input type="text" id="name-input" placeholder="Full Name (e.g. Lionel Messi)" autocomplete="name" oninput="validateName()" onkeydown="if(event.key==='Enter')goEmail()"/>
         <span class="inp-ico">&#128100;</span>
       </div>
       <div id="name-err" class="err" style="display:none">&#9888; Please enter your full name (first and last).</div>
       <div class="rules">
         <div class="rule"><div class="rule-ico">1️⃣</div><h4>One Entry</h4><p>One submission per person</p></div>
         <div class="rule"><div class="rule-ico">⚽</div><h4>2 Matches</h4><p>Predict the winner of each match</p></div>
-        <div class="rule"><div class="rule-ico">⭐</div><h4>5 + 3 Points</h4><p>5 pts correct winner, +3 pts exact score</p></div>
+        <div class="rule"><div class="rule-ico">⭐</div><h4>5 + 3 Points</h4><p>5 pts correct winner, +3 pts per correct score digit</p></div>
+      </div>
+      <div style="background:rgba(109,187,112,.08);border:1px solid rgba(109,187,112,.3);border-radius:10px;padding:12px 16px;margin:12px 0;font-size:12.5px;color:#8fd992;line-height:1.5">
+        ⚽ &nbsp;<strong>How scoring works:</strong> Get the winner right for 5 pts. Each correct score digit earns +3 pts. Example: real score France 3-2 England — if you predicted 3-1, you still earn 3 pts (correct France goals). If you predicted 3-2 exactly, you earn 2×3 = 6 pts (both digits correct).
       </div>
       <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:12px 16px;margin:12px 0;font-size:13px;color:#92400e">
         📅 &nbsp;<strong>Form closes:</strong> 14 July, 10 PM QST
@@ -205,7 +208,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     </div>
     <div class="warn" id="warn-M1">Please select a winner to continue.</div>
     <div class="card-title" style="margin-top:22px">Predict the score</div>
-    <div class="card-sub" style="margin-bottom:14px">Get the exact score right for bonus points.</div>
+    <div class="card-sub" style="margin-bottom:14px">+3 pts per correct goal digit (matching either team's score), +6 pts if the exact score is correct.</div>
     <div class="score-grid">
       <div class="score-team">
         <span class="score-team-label">France</span>
@@ -248,7 +251,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     </div>
     <div class="warn" id="warn-M2">Please select a winner to continue.</div>
     <div class="card-title" style="margin-top:22px">Predict the score</div>
-    <div class="card-sub" style="margin-bottom:14px">Get the exact score right for bonus points.</div>
+    <div class="card-sub" style="margin-bottom:14px">+3 pts per correct goal digit (matching either team's score), +6 pts if the exact score is correct.</div>
     <div class="score-grid">
       <div class="score-team">
         <span class="score-team-label">Team A</span>
@@ -488,7 +491,7 @@ function renderBracketIn(targetId, p, editable){
     const f1=MATCH_META[mid].flag1,f2=MATCH_META[mid].flag2;
     const flagImg=(f)=>f?'<img src="'+f+'" style="width:16px;height:11px;object-fit:cover;border-radius:2px;margin-right:5px;vertical-align:middle;">':'';
     const sc=scores[mid]||{};
-    const scoreHtml=(sc[1]!==undefined&&sc[2]!==undefined&&sc[1]!==''&&sc[2]!=='')?'<div class="b-score">'+sc[1]+' - '+sc[2]+'</div>':'';
+    const scoreHtml=(sc[1]!==undefined&&sc[2]!==undefined&&sc[1]!==''&&sc[2]!=='')?'<div class="b-score">⚽ Score: '+sc[1]+' - '+sc[2]+'</div>':'';
     return '<div class="b-match">'+
       '<div class="b-mid">Match '+mid.replace('M','')+'</div>'+
       (editable?'<div class="b-edit-wrap">'+editBtn+'</div>':'')+
@@ -540,8 +543,8 @@ function doSubmit(){
   MATCH_KEYS.forEach(m=>{
     p.set(m,picks[m]||'');
     const sc=scores[m]||{};
-    p.set(m+'_score1',sc[1]||'');
-    p.set(m+'_score2',sc[2]||'');
+    p.set(m+'_s1',sc[1]||'');
+    p.set(m+'_s2',sc[2]||'');
   });
   const errBox=document.getElementById('submit-err');
   if(errBox){errBox.style.display='none';errBox.textContent='';}
