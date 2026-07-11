@@ -12,21 +12,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:100vh}
 .pg{display:none}.pg.active{display:block}
-.splash-wrap{position:fixed;inset:0;background:linear-gradient(160deg,#0a1220,#0d1728 60%,#16213e);display:flex;align-items:center;justify-content:center;z-index:9999;overflow:hidden}
-.splash-wrap.hide{display:none}
-.splash-field{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(109,187,112,.06) 0px,rgba(109,187,112,.06) 40px,transparent 40px,transparent 80px);opacity:.5}
-.splash-content{position:relative;text-align:center;z-index:2}
-.splash-ball{font-size:64px;display:inline-block;animation:sroll 1.1s cubic-bezier(.45,0,.55,1) infinite}
-@keyframes sroll{
-  0%{transform:translateX(-90px) rotate(0deg);}
-  50%{transform:translateX(0px) rotate(360deg) translateY(-14px);}
-  100%{transform:translateX(90px) rotate(720deg);}
-}
-.splash-title{font-size:22px;font-weight:800;color:#fff;margin-top:28px;letter-spacing:.02em}
-.splash-sub{font-size:14px;color:#a0aec0;margin-top:8px}
-.confetti-piece{position:absolute;top:-10px;border-radius:2px;opacity:.9;animation:confetti-fall linear infinite}
-@keyframes confetti-fall{
-  0%{transform:translateY(0) rotate(0deg);opacity:1}
+
   100%{transform:translateY(110vh) rotate(540deg);opacity:.3}
 }
 
@@ -178,7 +164,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
         <input type="text" id="hp-field" name="website" tabindex="-1" autocomplete="off">
       </div>
       <div class="inp-wrap">
-        <input type="text" id="name-input" placeholder="Full Name (e.g. Ahmed Ali)" autocomplete="name" oninput="validateName()" onkeydown="if(event.key==='Enter')goEmail()"/>
+        <input type="text" id="name-input" placeholder="Full Name (e.g. Lionel Messi)" autocomplete="name" oninput="validateName()" onkeydown="if(event.key==='Enter')goEmail()"/>
         <span class="inp-ico">&#128100;</span>
       </div>
       <div id="name-err" class="err" style="display:none">&#9888; Please enter your full name (first and last).</div>
@@ -189,6 +175,9 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
       </div>
       <div style="background:rgba(109,187,112,.08);border:1px solid rgba(109,187,112,.3);border-radius:10px;padding:12px 16px;margin:12px 0;font-size:12.5px;color:#8fd992;line-height:1.5">
         ⚽ &nbsp;<strong>How scoring works:</strong> Get the winner right for 5 pts. Each correct score digit earns +3 pts. Example: real score France 3-2 England — if you predicted 3-1, you still earn 3 pts (correct France goals). If you predicted 3-2 exactly, you earn 2×3 = 6 pts (both digits correct).
+      </div>
+      <div style="background:rgba(77,155,255,.08);border:1px solid rgba(77,155,255,.3);border-radius:10px;padding:12px 16px;margin:12px 0;font-size:12.5px;color:#8fbfff;line-height:1.5">
+        🕒 &nbsp;<strong>Note:</strong> Only the full-time score (90 or 120 minutes, including extra time) counts for score predictions. Penalty shootout results are not included.
       </div>
       <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:12px 16px;margin:12px 0;font-size:13px;color:#92400e">
         📅 &nbsp;<strong>Form closes:</strong> 14 July, 10 PM QST
@@ -226,7 +215,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     </div>
     <div class="warn" id="warn-M1">Please select a winner to continue.</div>
     <div class="card-title" style="margin-top:22px">Predict the score</div>
-    <div class="card-sub" style="margin-bottom:14px">+3 pts per correct goal digit (matching either team's score), +6 pts if the exact score is correct.</div>
+    <div class="card-sub" style="margin-bottom:14px">+3 pts per correct goal digit, +6 pts for exact score. Full-time/90 min score only — penalties not counted.</div>
     <div class="score-grid">
       <div class="score-team">
         <span class="score-team-label">France</span>
@@ -269,7 +258,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     </div>
     <div class="warn" id="warn-M2">Please select a winner to continue.</div>
     <div class="card-title" style="margin-top:22px">Predict the score</div>
-    <div class="card-sub" style="margin-bottom:14px">+3 pts per correct goal digit (matching either team's score), +6 pts if the exact score is correct.</div>
+    <div class="card-sub" style="margin-bottom:14px">+3 pts per correct goal digit, +6 pts for exact score. Full-time/90 min score only — penalties not counted.</div>
     <div class="score-grid">
       <div class="score-team">
         <span class="score-team-label">Team A</span>
@@ -306,16 +295,6 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 
 <div id="rev-items" style="display:none"></div>
 <!-- Success Page -->
-<!-- Splash Screen (shown briefly on submit before success page) -->
-<div class="splash-wrap hide" id="splash-screen">
-  <div class="splash-field"></div>
-  <div class="splash-content">
-    <span class="splash-ball">⚽</span>
-    <div class="splash-title">Predictions Locked In!</div>
-    <div class="splash-sub">Loading your journey...</div>
-  </div>
-</div>
-
 <div class="pg" id="page-success">
   <div class="wrap" style="margin-top:32px"><div class="card"><div class="success">
     <span class="trophy">🏆</span>
@@ -557,7 +536,7 @@ function doSubmit(){
   const elapsedSeconds=((Date.now()-(window.formStartTime||Date.now()))/1000);
   if(hpVal!==''){
     // Bot detected via honeypot — silently fake success, don't tip it off
-    markDone();showSplashThenSuccess();return;
+    markDone();showPage('page-success');return;
   }
   if(elapsedSeconds<4){
     if(errBoxPre){errBoxPre.textContent='⚠️ Please take a moment to review your picks before submitting.';errBoxPre.style.display='block';}
@@ -592,7 +571,7 @@ function doSubmit(){
       if(data&&data.msg==='saved'){
         markDone();var _sn=document.getElementById('success-name');
         if(_sn)_sn.textContent=submitName?'Welcome, '+submitName+'!':'';
-        showSplashThenSuccess();
+        showPage('page-success');
       }else if(data&&data.msg==='already_submitted'){
         const mergedPicks=Object.assign({},picks);
         MATCH_KEYS.forEach(m=>{const sc=scores[m]||{};mergedPicks[m+'_s1']=sc[1]||'';mergedPicks[m+'_s2']=sc[2]||'';});
@@ -627,32 +606,7 @@ function markDone(){
   }catch(e){}
 }
 
-function showSplashThenSuccess(){
-  const splash=document.getElementById('splash-screen');
-  if(!splash){showPage('page-success');return;}
-  splash.classList.remove('hide');
-  spawnConfetti(splash);
-  setTimeout(()=>{
-    splash.classList.add('hide');
-    showPage('page-success');
-  },2200);
-}
 
-function spawnConfetti(container){
-  const colors=['#E30613','#f6c90e','#6dbb70','#4d9bff','#ffffff'];
-  const old=container.querySelectorAll('.confetti-piece');old.forEach(el=>el.remove());
-  for(let i=0;i<40;i++){
-    const el=document.createElement('div');
-    el.className='confetti-piece';
-    const size=(6+Math.random()*6).toFixed(0);
-    el.style.width=size+'px';el.style.height=size+'px';
-    el.style.left=(Math.random()*100)+'%';
-    el.style.background=colors[Math.floor(Math.random()*colors.length)];
-    el.style.animationDuration=(1.6+Math.random()*1.4)+'s';
-    el.style.animationDelay=(Math.random()*0.5)+'s';
-    container.appendChild(el);
-  }
-}
 
 document.addEventListener('DOMContentLoaded',()=>{
   // ?reset=1 in URL clears localStorage (for testing/admin)
