@@ -238,22 +238,22 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 <div class="pg" id="page-match-M2">
   <div class="grp-hero">
     <div class="kicker">Semifinals · Match 2 of 2</div>
-    <h2>Match 2: TBD vs TBD</h2>
+    <h2>Match 2: England vs Argentina</h2>
   </div>
   <div class="wrap"><div class="card">
     <div class="card-title">Who wins?</div>
     <div class="flag-grid two-col">
-      <label class="flag-opt" data-match="M2" onclick="selectWinner('M2','TBD_A',this)">
-        <input type="radio" name="match_M2" value="TBD_A"/>
+      <label class="flag-opt" data-match="M2" onclick="selectWinner('M2','England',this)">
+        <input type="radio" name="match_M2" value="England"/>
         <span class="chk">✓</span>
-        <div style="width:80px;height:54px;border-radius:8px;background:#1a2a3a;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:11px;color:#6b7f94;">TBD</div>
-        <span class="match-team">TBD</span>
+        <img src="https://flagcdn.com/w80/gb-eng.png" alt="England" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
+        <span class="match-team">England</span>
       </label>
-      <label class="flag-opt" data-match="M2" onclick="selectWinner('M2','TBD_B',this)">
-        <input type="radio" name="match_M2" value="TBD_B"/>
+      <label class="flag-opt" data-match="M2" onclick="selectWinner('M2','Argentina',this)">
+        <input type="radio" name="match_M2" value="Argentina"/>
         <span class="chk">✓</span>
-        <div style="width:80px;height:54px;border-radius:8px;background:#1a2a3a;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-size:11px;color:#6b7f94;">TBD</div>
-        <span class="match-team">TBD</span>
+        <img src="https://flagcdn.com/w80/ar.png" alt="Argentina" style="width:80px;height:54px;border-radius:8px;object-fit:cover;display:block;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a">
+        <span class="match-team">Argentina</span>
       </label>
     </div>
     <div class="warn" id="warn-M2">Please select a winner to continue.</div>
@@ -261,12 +261,12 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     <div class="card-sub" style="margin-bottom:14px">+3 pts per correct goal digit, +6 pts for exact score. Full-time/90 min score only — penalties not counted.</div>
     <div class="score-grid">
       <div class="score-team">
-        <span class="score-team-label">Team A</span>
+        <span class="score-team-label">England</span>
         <input type="number" min="0" max="20" id="score-M2-1" class="score-input" placeholder="0" oninput="setScore('M2',1,this.value)"/>
       </div>
       <div class="score-sep">:</div>
       <div class="score-team">
-        <span class="score-team-label">Team B</span>
+        <span class="score-team-label">Argentina</span>
         <input type="number" min="0" max="20" id="score-M2-2" class="score-input" placeholder="0" oninput="setScore('M2',2,this.value)"/>
       </div>
     </div>
@@ -348,7 +348,7 @@ const _k = (s=>Array.from(s).map((c,i)=>String.fromCharCode(c.charCodeAt(0)^(i%7
 
 const MATCH_META = {
   M1:{label:"Match 1",teams:["France","Spain"],flag1:"https://flagcdn.com/w80/fr.png",flag2:"https://flagcdn.com/w80/es.png"},
-  M2:{label:"Match 2",teams:["TBD","TBD"],flag1:"",flag2:""}
+  M2:{label:"Match 2",teams:["England","Argentina"],flag1:"https://flagcdn.com/w80/gb-eng.png",flag2:"https://flagcdn.com/w80/ar.png"}
 };
 const R16_PAIRS=[['M1','M2']];
 
