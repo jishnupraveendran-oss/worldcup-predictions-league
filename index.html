@@ -30,13 +30,17 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 .hero{height:200px;background:linear-gradient(135deg,rgba(227,6,19,.35),rgba(0,0,0,.65)),url('https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=1400&q=80') center/cover;display:flex;align-items:center;padding:0 32px;border-radius:0 0 20px 20px;margin-bottom:16px}
 @keyframes goldPulse{0%{box-shadow:0 0 20px rgba(246,201,14,.15)}50%{box-shadow:0 0 40px rgba(246,201,14,.35)}100%{box-shadow:0 0 20px rgba(246,201,14,.15)}}
 .final-glow{animation:goldPulse 2.4s ease-in-out infinite}
-.faceoff-splash{position:fixed;inset:0;background:#07111f;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;animation:splashFadeIn .6s ease}
+.faceoff-splash{position:fixed;inset:0;background:#000;z-index:9999;overflow:hidden;animation:splashFadeIn .6s ease}
 .faceoff-splash.hide{display:none}
-.faceoff-splash img{width:100%;max-width:900px;max-height:60vh;object-fit:contain;border-radius:12px;box-shadow:0 0 60px rgba(246,201,14,.25)}
-.faceoff-splash h2{color:#fff;font-size:22px;font-weight:800;margin:22px 0 6px;text-align:center;letter-spacing:.02em}
-.faceoff-splash p{color:#a0aec0;font-size:14px;margin:0 0 22px;text-align:center;max-width:340px;padding:0 20px}
-.faceoff-splash .btn{max-width:280px;padding:15px 34px}
+.faceoff-splash img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.splash-bottom-banner{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,rgba(7,17,31,0) 0%,rgba(7,17,31,.75) 35%,rgba(7,17,31,.97) 100%);padding:40px 20px 28px;display:flex;align-items:center;justify-content:center}
+.splash-banner-inner{width:100%;max-width:600px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px}
+.splash-kicker{color:#f6c90e;font-size:13px;font-weight:800;letter-spacing:.06em}
+.splash-title{color:#fff;font-size:24px;font-weight:800;letter-spacing:.01em}
+.splash-sub{color:#c9d4de;font-size:13.5px;max-width:380px}
+.splash-cta{width:100%;max-width:340px;padding:16px 30px;font-size:15.5px;box-shadow:0 0 30px rgba(246,201,14,.35);animation:goldPulse 2.4s ease-in-out infinite}
 @keyframes splashFadeIn{from{opacity:0}to{opacity:1}}
+@media (max-width:480px){.splash-title{font-size:20px}.splash-bottom-banner{padding:26px 16px 22px}}
 
 
 .hero-kicker{display:inline-block;background:#E30613;color:#fff;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
@@ -160,11 +164,19 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 <iframe name="hid-frame" style="display:none"></iframe>
 
 <div class="faceoff-splash" id="faceoff-splash">
-  <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/d7202608-8838-42c7-a492-4897760dc486.png?AWSAccessKeyId=ASIA2F3EMEYESCL33R5W&Signature=UGzfa6fzI3HGfh9vX2EEr1Febvc%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEHsaCXVzLWVhc3QtMSJHMEUCIQDcDDo9tst3VnKhLQq%2F2KwfdA%2FBkOkbx557Kg1%2Fv7mF3gIgdW%2FeHVgRlYq7U%2F7c3peikfPyVKnEOP%2Fiwb%2F%2FbZkBMN4q8wQIRBABGgw2OTk3NTMzMDk3MDUiDE75u4zQXMpRVpsEtSrQBMMC9OOWM9ctC2snHbyTieF4eoXdlRnstzeAZeWKCYXyIfzDdb25w1oktGlb4X%2F2rux6aXR5tMAMscefqxsS0zYgT9HBrnG%2FKvKGxey7VQUTWuleyAw4ktHmveP1AeaCqyMPfowRvUIaTNzwphQ2F3nGCx4jF%2B%2FX%2BHUmmPoukqGU2AWHt%2Be6504NHNp2UxlmCwjT9U4%2FFWtVBbniCksFgi8ZQPnHV5P%2FCq%2BijlenX023fkVKYLSbJd48nqbarLPc66teNT6i%2F6bqipSA2iZvG8pZ2tNk8IpbQ%2BxBMQ4p3W21X7nPTCjGJL6lX775SiRUqRwj%2BoetpzCdUk2tEOGU%2Bv18mF5OTw0PtmYGvKyl4QkA7x7uNYHVVEZosbAFMANBGwrAIDxtSLP7WN%2BOV5aDJFV6d%2B9dB5cnHARLgvdB98soSQIv3zL8b662Zu0SDjejbXj1ee3CZhsWIM7BjkOjEy%2FtGPlgZWQroP24zxwdEbYsC2YVSs61KomhqwHQGVOEDbgeRbX7SpNuRyKWPgGlhsfAHFh7IxRCfQuvQYtprsOts9oU4wLwnGke9ApJyG%2BoeYb6JsecQqg4HMX6rhifIb5gslSHLJZMDv%2FiEqG%2FVG5puceR%2BKucum7itA6fNIT5QEigZV0vwvx5GYZuQoHOH24FCQ8btYWoiIwUXvRZVpOVKFk4cl8jCs21z0rUC48fjWJvraq6LD%2BygaCQvjMVt2qGtFUPofEHAxqR2m5DPgiHkFxxnp2VPe6cGomX5TiSpHEOkmLS0%2BVhDAI05wutiyEwo%2Bni0gY6mAGDCp51vF2rd3ZaylAY%2FMW1v6Qq5vqu2jSLX%2F%2BM8bDkPV7LX6E4jKstA%2BiC9ghiDjQXgh%2F0UC3bicFmx7PzRJFhuqZJkqGwx8Mxz6E9d0i767PTlrbYGoEtkazzDjS%2BNteoqlvAKjuTe7ejRR5N%2BWGkVfZxpYscsTPm0v32LWzInSGoFd429oy5QcdakBAHBmqoPRaaXUzoUw%3D%3D&Expires=1784201846" alt="Spain vs Argentina — Grand Final Face-Off"/>
-  <h2>🏆 The Grand Final Is Here 🏆</h2>
-  <p>Spain vs Argentina — the last prediction of the tournament. Are you ready?</p>
-  <button class="btn pri" onclick="closeFaceoffSplash()">Enter the League →</button>
+  <img src="https://user-gen-media-assets.s3.amazonaws.com/seedream_images/9c3dcf1e-41b2-4369-a445-9ba00aefb9b6.png?AWSAccessKeyId=ASIA2F3EMEYEUOR7L27I&Signature=IzqsvVryNFWEzz0GYOegnWjOJkM%3D&x-amz-security-token=IQoJb3JpZ2luX2VjEHwaCXVzLWVhc3QtMSJHMEUCIQC38nU6ZCJn%2FC%2FXk8SAhgOxx0bws4vSMHUKFY8SJWT3YQIgGov5tB0MnEwsA7nHYi2E8qBAvPQwniZHIAY2aQms%2BC8q8wQIRRABGgw2OTk3NTMzMDk3MDUiDHkegaHHFazQ3XlHJCrQBHzZIXj7QqUiiZo7z8BY5JbSuyQQE5hT4gxDdyZuOOFRDbhIivtdIVjbbJEowBpLd3T5XmhqWFcZHwRjqV7jbZMCVL34ax0BXoqknBm2KY7JAkfF%2BSylkRX4WldH2ICANO1IRKW6795x2zXLAK%2BZqDScgmUUAWs9vx03Gdqb3fFc3BzoB2LgBxz1mvKWcsRk47vld6OauJUr0H34KvAeRvW62BECz5eLZcXrpLqZ1s5Dlf%2Fj2UgrH5Vr%2FwV%2FldXqTbd9W%2FyIrOyLJ6cZJRhNwdafgFfqQYgJ8SyM9eZQpf58tOLDVlPcKopEcPF4KMnE%2BgIhBvPhPJJBmXMcT7EIBi9nnJQ6VobZz1jPfZsIu5R0FXkI8uX%2BB9K%2Bx3wFiN9HnAG0X7A6bqtoYE6%2FSTTjEdhuUiq9ZDAcNdGIzCTlMXDNDHv%2FuRl8fLwT8zcql%2Fo186aeuYr40gJqWjxiyU37Oj%2Bh7pSsEqB8duxM1k5L0zTvt9LY4eqxXcoiipEbOhnQl0zkyvkxfYlZ%2BrBufY45ulXzuEY3ChZrdO3hNWqVVLyFb1N%2BHKsHum03bkEB7vuzRKnclOxFMmdh8GBXS6dq1VAknhK%2Bf1jG9pT4S1%2FQoIIsH0wqNQ9KfGMiauTI%2FZAqSyWnrLpgz5qxUKgmzA9VC3s2gG13HP2sJyxxh%2BJrEhM2JZuN9PQJsy%2F8WytMR3hpQIvGFU3DJ5H8v4zFM%2FNawajvCwdD39Vj7bbildx0vm49W8%2BDFAMsxSpaiHp7FhJYG1deuTMwY93E9N%2Bwnf5QhoEw84Lj0gY6mAEpIAcg%2BQj2Oa9q8lrSfdOYerVU1oipayCwmLLKeZbrghqEKx5alehJNeu%2F%2BwGlUVQbfZcSOu050ulQAOMkKXJG2IS4sPd4dZ9p8e8wznbCPuy7WBC8j7qaQf7OC6pJJm435dXijnf8yLNE%2FkXEGx7LKm5ruZFLSyQPubiqU%2F5DtCac8mp1RBc7ULJbLMxjIOdPy0828HTfiw%3D%3D&Expires=1784205126" alt="Messi vs Yamal — Grand Final Face-Off"/>
+  <div class="splash-bottom-banner">
+    <div class="splash-banner-inner">
+      <div class="splash-banner-text">
+        <div class="splash-kicker">🏆 THE GRAND FINAL 🏆</div>
+        <div class="splash-title">Spain vs Argentina</div>
+        <div class="splash-sub">The last prediction of the tournament — are you ready?</div>
+      </div>
+      <button class="btn pri splash-cta" onclick="closeFaceoffSplash()">Start Predicting →</button>
+    </div>
+  </div>
 </div>
+
 
 <div class="pg active" id="page-email">
   <div class="wrap">
@@ -177,15 +189,15 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     </div>
     <div class="card final-glow" style="border:2px solid rgba(246,201,14,.4)">
       <div style="text-align:center;margin-bottom:16px">
-        <div style="font-size:44px;margin-bottom:6px">🏆⚽🏆</div>
-        <div class="card-title" style="font-size:20px;margin-bottom:2px">This Is It — The Final!</div>
+        <div style="font-size:44px;margin-bottom:6px">🏆</div>
+        <div class="card-title" style="font-size:20px;margin-bottom:2px">The Grand Finale is here!</div>
         <div class="card-sub">One match. One winner. Enter your full name to predict the Grand Final.</div>
       </div>
       <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
         <input type="text" id="hp-field" name="website" tabindex="-1" autocomplete="off">
       </div>
       <div class="inp-wrap">
-        <input type="text" id="name-input" placeholder="Full Name (e.g. Ahmed Ali)" autocomplete="name" oninput="validateName()" onkeydown="if(event.key==='Enter')goEmail()"/>
+        <input type="text" id="name-input" placeholder="Full Name (e.g. Lionel Messi)" autocomplete="name" oninput="validateName()" onkeydown="if(event.key==='Enter')goEmail()"/>
         <span class="inp-ico">&#128100;</span>
       </div>
       <div id="name-err" class="err" style="display:none">&#9888; Please enter your full name (first and last).</div>
@@ -322,7 +334,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 <script>
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxQgGx0Qfmr1IJAQh3n8SU2uePX68k54Vf9gOn0ET0b_iUi4UnUZTybOiJBgwniV35GJw/exec';
 const MATCH_KEYS = ["M1"];
-const SHEET_TAB  = 'FINAL_Responses';
+const SHEET_TAB  = 'Final_Responses';
 const _k = (s=>Array.from(s).map((c,i)=>String.fromCharCode(c.charCodeAt(0)^(i%7+3))).join(''))(atob('ZjQxPzFqazVmMjBia2xgZjFnYTxsYDBkZDAwOmU2NWU/bWxgNDQ+MTE9YTdhNGQ8'));
 
 const MATCH_META = {
