@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -158,6 +157,35 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 .lb-alt{background:rgba(255,255,255,.025)}
 .lb-toggle-btn{display:block;width:100%;margin-top:8px;background:rgba(246,201,14,.08);border:1px solid rgba(246,201,14,.3);color:#f6c90e;padding:9px 0;border-radius:999px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:.15s}
 .lb-toggle-btn:hover{background:rgba(246,201,14,.2)}
+
+/* ===== Final Review Screen: left/right team cards + center trophy + bottom score banner ===== */
+.final-review-row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:18px 0 4px;position:relative}
+.fr-team-card{flex:1;max-width:170px;background:rgba(255,255,255,.03);border:2px solid rgba(255,255,255,.1);border-radius:16px;padding:16px 10px;text-align:center;position:relative;transition:.2s}
+.fr-team-card.fr-winner{border-color:#2ecc71;background:rgba(46,204,113,.08);box-shadow:0 0 22px rgba(46,204,113,.18)}
+.fr-team-card.fr-loser{opacity:.55}
+.fr-team-flag{width:64px;height:44px;border-radius:8px;object-fit:cover;margin:0 auto 10px;box-shadow:0 4px 12px rgba(0,0,0,.35);background:#1a2a3a}
+.fr-team-name{font-size:15px;font-weight:800;color:#fff;letter-spacing:.01em}
+.fr-winner-badge{display:inline-flex;align-items:center;gap:4px;margin-top:8px;background:#2ecc71;color:#07120a;font-size:10.5px;font-weight:800;letter-spacing:.04em;padding:3px 10px;border-radius:999px}
+.fr-center-col{display:flex;flex-direction:column;align-items:center;gap:6px;flex:0 0 110px}
+.fr-trophy-glow{position:relative;width:96px;height:96px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:radial-gradient(circle,rgba(246,201,14,.35) 0%,rgba(246,201,14,.12) 55%,rgba(246,201,14,0) 80%)}
+.fr-trophy-glow img{width:72px;height:72px;object-fit:contain;filter:drop-shadow(0 0 14px rgba(246,201,14,.55))}
+.fr-pick-label{font-size:10px;color:#8a97a8;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.fr-pick-team{font-size:14px;font-weight:800;color:#f6c90e}
+.fr-score-banner{margin-top:16px;background:linear-gradient(135deg,#101b31,#0d1728);border:1.5px solid rgba(246,201,14,.35);border-radius:14px;padding:14px 18px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 4px 18px rgba(0,0,0,.25)}
+.fr-score-ball{font-size:20px;flex-shrink:0}
+.fr-score-text{text-align:center}
+.fr-score-label{font-size:10.5px;color:#8a97a8;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:3px}
+.fr-score-value{font-size:19px;font-weight:800;color:#fff;letter-spacing:.02em}
+@media(max-width:480px){
+  .fr-team-card{max-width:120px;padding:12px 6px}
+  .fr-team-flag{width:48px;height:32px}
+  .fr-team-name{font-size:12.5px}
+  .fr-center-col{flex:0 0 84px}
+  .fr-trophy-glow{width:76px;height:76px}
+  .fr-trophy-glow img{width:56px;height:56px}
+  .fr-score-value{font-size:16px}
+  .fr-score-banner{padding:12px 10px;gap:10px}
+}
 </style>
 </head>
 <body>
@@ -274,7 +302,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     <div class="rev-email" id="rev-email"></div>
     <div class="bracket-section">
       <div class="bracket-title-bar">🏆 The Grand Final</div>
-      <div class="bracket-graphic"><div class="bracket-grid" id="bracketGrid"></div></div>
+      <div id="finalReviewBox"></div>
     </div>
         <div class="nav" style="margin-top:18px">
       <div id="submit-err" style="display:none;color:#ff4444;font-size:13px;font-weight:700;background:rgba(255,68,68,0.1);padding:10px 14px;border-radius:8px;border-left:3px solid #ff4444;margin-bottom:12px;text-align:left"></div>
@@ -320,9 +348,9 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 
       <!-- Your Journey Bracket -->
       <div class="bracket-title-bar">🏆 Your Grand Final Prediction</div>
-      <div class="bracket-graphic"><div class="bracket-grid" id="alreadyBracketGrid"></div></div>
+      <div id="alreadyReviewBox"></div>
 
-      <div style="background:rgba(246,201,14,.1);border:1px solid rgba(246,201,14,.3);border-radius:12px;padding:14px 16px;margin:0 0 18px;text-align:left">
+      <div style="background:rgba(246,201,14,.1);border:1px solid rgba(246,201,14,.3);border-radius:12px;padding:14px 16px;margin:18px 0 18px;text-align:left">
         <p style="font-size:13px;color:#f6c90e;font-weight:700;margin:0 0 4px">📊 Final Results</p>
         <p style="font-size:12px;color:#b8c4d1;margin:0">The final leaderboard and the overall winner will be announced shortly after the match. Good luck!</p>
       </div>
@@ -341,6 +369,7 @@ const _k = (s=>Array.from(s).map((c,i)=>String.fromCharCode(c.charCodeAt(0)^(i%7
 const MATCH_META = {
   M1:{label:"Grand Final",teams:["Spain","Argentina"],flag1:"https://flagcdn.com/w80/es.png",flag2:"https://flagcdn.com/w80/ar.png"}
 };
+const TROPHY_IMG_URL = "https://pplx-res.cloudinary.com/image/upload/pplx_search_images/de395dfea6337aadef061cd701645f4405003365.jpg";
 const R16_PAIRS=[];
 
 window.userName='';window.currentStep=0;
@@ -472,7 +501,7 @@ function editMatch(mid){
 
 function buildReview(){
   document.getElementById('rev-email').textContent=userName;
-  renderBracketIn('bracketGrid', picks, true);
+  renderFinalReview('finalReviewBox', picks, true);
   const el=document.getElementById('rev-items');
   if(el) el.innerHTML='';
 }
@@ -480,31 +509,55 @@ function buildReview(){
 function showAlreadyPage(name, savedPicks){
   var _an=document.getElementById('already-name');if(_an)_an.textContent=name||window.userName||sessionStorage.getItem('final_name')||'';
 
-  // Render bracket journey
-  renderBracketIn('alreadyBracketGrid', savedPicks, false);
+  // Render final review layout
+  renderFinalReview('alreadyReviewBox', savedPicks, false);
   showPage('page-already');
 }
 
 
-function renderBracketIn(targetId, p, editable){
+function renderFinalReview(targetId, p, editable){
   const bg=document.getElementById(targetId);if(!bg)return;
   const mid='M1';
   const [t1,t2]=MATCH_META[mid].teams;const w=p[mid];
-  const editBtn=editable?'<button class="edit-match-btn" onclick="editMatch(&quot;'+mid+'&quot;)" title="Edit">✏️</button>':'';
   const f1=MATCH_META[mid].flag1,f2=MATCH_META[mid].flag2;
-  const flagImg=(f)=>f?'<img src="'+f+'" style="width:16px;height:11px;object-fit:cover;border-radius:2px;margin-right:5px;vertical-align:middle;">':'';
   const sc=scores[mid]||{};
   const s1=(sc[1]!==undefined?sc[1]:p[mid+'_s1']);
   const s2=(sc[2]!==undefined?sc[2]:p[mid+'_s2']);
-  const scoreHtml=(s1!==undefined&&s2!==undefined&&s1!==''&&s2!=='')?'<div class="b-score">⚽ Score: '+s1+' - '+s2+'</div>':'';
-  const matchHtml='<div class="b-match" style="max-width:260px;margin:0 auto">'+
-    '<div class="b-mid">🏆 Grand Final</div>'+
-    (editable?'<div class="b-edit-wrap">'+editBtn+'</div>':'')+
-    '<div class="b-team '+(w===t1?'winner':'')+'">'+flagImg(f1)+t1+(w===t1?' ✓':'')+'</div>'+
-    '<div class="b-team '+(w===t2?'winner':'')+'">'+flagImg(f2)+t2+(w===t2?' ✓':'')+'</div>'+
-    scoreHtml+
-  '</div>';
-  bg.innerHTML='<div class="b-col-center"><div class="b-cup" style="margin-bottom:10px">🏆</div>'+matchHtml+'</div>';
+  const hasScore=(s1!==undefined&&s2!==undefined&&s1!==''&&s2!=='');
+
+  const t1IsWinner = w===t1, t2IsWinner = w===t2;
+  const editBtn=editable?'<button class="edit-match-btn" onclick="editMatch(&quot;'+mid+'&quot;)" title="Edit" style="position:absolute;top:-6px;right:-6px;">✏️</button>':'';
+
+  const leftCard = '<div class="fr-team-card '+(t1IsWinner?'fr-winner':'fr-loser')+'" style="position:relative">'+
+      (editable?editBtn:'')+
+      '<img class="fr-team-flag" src="'+f1+'" alt="'+t1+'">'+
+      '<div class="fr-team-name">'+t1+'</div>'+
+      (t1IsWinner?'<div class="fr-winner-badge">✓ WINNER</div>':'')+
+    '</div>';
+
+  const rightCard = '<div class="fr-team-card '+(t2IsWinner?'fr-winner':'fr-loser')+'">'+
+      '<img class="fr-team-flag" src="'+f2+'" alt="'+t2+'">'+
+      '<div class="fr-team-name">'+t2+'</div>'+
+      (t2IsWinner?'<div class="fr-winner-badge">✓ WINNER</div>':'')+
+    '</div>';
+
+  const centerCol = '<div class="fr-center-col">'+
+      '<div class="fr-trophy-glow"><img src="'+TROPHY_IMG_URL+'" alt="World Cup Trophy"></div>'+
+      '<div class="fr-pick-label">Your Pick</div>'+
+      '<div class="fr-pick-team">'+(w||'—')+'</div>'+
+    '</div>';
+
+  const scoreBanner = hasScore ? (
+    '<div class="fr-score-banner">'+
+      '<span class="fr-score-ball">⚽</span>'+
+      '<div class="fr-score-text">'+
+        '<div class="fr-score-label">Predicted Final Score</div>'+
+        '<div class="fr-score-value">'+t1.toUpperCase()+' '+s1+' - '+s2+' '+t2.toUpperCase()+'</div>'+
+      '</div>'+
+    '</div>'
+  ) : '';
+
+  bg.innerHTML = '<div class="final-review-row">'+leftCard+centerCol+rightCard+'</div>'+scoreBanner;
 }
 
 
