@@ -321,13 +321,13 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
     <p>Your Grand Final prediction has been saved successfully.</p>
     <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:14px;padding:18px 20px;margin:16px 0;color:#fff;text-align:center">
       <p style="font-size:15px;font-weight:700;margin:0 0 6px;color:#f6c90e">🎉 Thank You! 🎉</p>
-      <p style="font-size:13px;color:#dbe3ec;margin:0;line-height:1.6">This wraps up the World Cup Mania Prediction League. Thank you for playing every round, for your support, and for making this competition so much fun. Whatever happens on the pitch, you've already been a champion of this league!</p>
+      <p style="font-size:13px;color:#dbe3ec;margin:0;line-height:1.6">This wraps up the World Cup Mania Prediction League. Thank you for playing every round, for your support, and for making this competition so much fun. Whatever happens on the pitch — you've already been a champion of this league!</p>
     </div>
     <div style="background:rgba(246,201,14,.1);border:1px solid rgba(246,201,14,.3);border-radius:12px;padding:14px 16px;margin-top:16px;text-align:left">
       <p style="font-size:13px;color:#f6c90e;font-weight:700;margin:0 0 4px">📊 Final Results</p>
       <p style="font-size:12px;color:#b8c4d1;margin:0">The final leaderboard and the overall winner will be announced soon. Good luck!</p>
     </div>
-    <p style="font-size:12px;color:#6b7f94;margin-top:16px">World Cup Mania — The Grand Final 2026<br/>Spain vs Argentina </p>
+    <p style="font-size:12px;color:#6b7f94;margin-top:16px">World Cup Mania — Grand Final 2026<br/>Spain 🇪🇸 vs Argentina 🇦🇷</p>
   </div></div></div>
 </div>
 
@@ -343,7 +343,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
 
       <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:14px;padding:18px 20px;margin:0 0 22px;color:#fff;text-align:center">
         <p style="font-size:15px;font-weight:700;margin:0 0 6px;color:#f6c90e">🎉 Thank You! 🎉</p>
-        <p style="font-size:13px;color:#dbe3ec;margin:0;line-height:1.6">This wraps up the World Cup Mania Prediction League. Thank you for playing every round, for your support, and for making this competition so much fun. Whatever happens on the pitch, you've already been a champion of this league!</p>
+        <p style="font-size:13px;color:#dbe3ec;margin:0;line-height:1.6">This wraps up the World Cup Mania Prediction League. Thank you for playing every round, for your support, and for making this competition so much fun. Whatever happens on the pitch — you've already been a champion of this league!</p>
       </div>
 
       <!-- Your Journey Bracket -->
@@ -427,13 +427,47 @@ function goEmail(){
   window.formStartTime=Date.now();
   window.userName=toTitleCase(document.getElementById('name-input').value);
   sessionStorage.setItem('final_name',window.userName);
+
+  // 1) Fast local check (works instantly if this browser already has it cached)
   try{
     var cached=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
     var saved=cached[window.userName.toLowerCase()];
     if(saved&&typeof saved==='object'&&Object.keys(saved).length>0){showAlreadyPage(window.userName,saved);return;}
   }catch(e){}
-  window.currentStep=1;
-  showPage('page-match-M1');
+
+  // 2) Authoritative server check — catches duplicates even after cache/localStorage
+  //    was cleared, since it queries the actual Google Sheet, not the browser.
+  btn.disabled=true;var origBtnText=btn.textContent;btn.textContent='Checking...';
+  var doneCheck=false;
+  var checkScript=document.createElement('script');checkScript.id='_jsonp_check';
+  var checkTimer=setTimeout(function(){
+    if(doneCheck)return;doneCheck=true;
+    var old=document.getElementById('_jsonp_check');if(old)old.remove();
+    // Fail-open on timeout so a slow/offline network doesn't block legit new users,
+    // but the server will still enforce the duplicate block at final submit time.
+    btn.disabled=false;btn.textContent=origBtnText;
+    window.currentStep=1;showPage('page-match-M1');
+  },8000);
+  window._checkCallback=function(data){
+    if(doneCheck)return;doneCheck=true;clearTimeout(checkTimer);
+    var old=document.getElementById('_jsonp_check');if(old)old.remove();
+    btn.disabled=false;btn.textContent=origBtnText;
+    if(data&&data.already===true){
+      try{
+        var cached2=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+        cached2[window.userName.toLowerCase()]=data.picks||{};
+        localStorage.setItem(STORAGE_KEY,JSON.stringify(cached2));
+      }catch(e){}
+      showAlreadyPage(window.userName,data.picks||{});
+      return;
+    }
+    window.currentStep=1;showPage('page-match-M1');
+  };
+  var q=new URLSearchParams();
+  q.set('check','1');q.set('name',window.userName);
+  q.set('tab',SHEET_TAB);q.set('k',_k);q.set('callback','_checkCallback');
+  checkScript.src=SCRIPT_URL+'?'+q.toString();
+  document.body.appendChild(checkScript);
 }
 
 
