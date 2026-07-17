@@ -229,6 +229,7 @@ body{font-family:'Inter',sans-serif;background:#07111f;color:#f7fbff;min-height:
         <span class="inp-ico">&#128100;</span>
       </div>
       <div id="name-err" class="err" style="display:none">&#9888; Please enter your full name (first and last).</div>
+      <div id="name-check-err" class="err" style="display:none"></div>
       <div class="rules">
         <div class="rule"><div class="rule-ico">1️⃣</div><h4>One Entry</h4><p>One submission per person</p></div>
         <div class="rule"><div class="rule-ico">⚽</div><h4>1 Match</h4><p>Spain vs Argentina — winner takes all</p></div>
@@ -390,6 +391,12 @@ function dbg(msg){
 }
 
 function showPage(id){
+  // Hard lock: once a user is confirmed already-submitted, never allow
+  // navigation into any prediction/match page or the review page again.
+  var blockedPages=['page-email','page-match-M1','page-review'];
+  if(window.isLockedOut && blockedPages.indexOf(id)!==-1){
+    id='page-already';
+  }
   document.querySelectorAll('.pg').forEach(p=>p.classList.remove('active'));
   const el=document.getElementById(id);
   if(el){el.classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
@@ -428,46 +435,78 @@ function goEmail(){
   window.userName=toTitleCase(document.getElementById('name-input').value);
   sessionStorage.setItem('final_name',window.userName);
 
-  // 1) Fast local check (works instantly if this browser already has it cached)
+  // 1) Fast local check (instant if this browser already has it cached)
   try{
     var cached=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
     var saved=cached[window.userName.toLowerCase()];
-    if(saved&&typeof saved==='object'&&Object.keys(saved).length>0){showAlreadyPage(window.userName,saved);return;}
+    if(saved&&typeof saved==='object'&&Object.keys(saved).length>0){lockUserOut(window.userName,saved);return;}
   }catch(e){}
 
-  // 2) Authoritative server check — catches duplicates even after cache/localStorage
-  //    was cleared, since it queries the actual Google Sheet, not the browser.
-  btn.disabled=true;var origBtnText=btn.textContent;btn.textContent='Checking...';
-  var doneCheck=false;
-  var checkScript=document.createElement('script');checkScript.id='_jsonp_check';
-  var checkTimer=setTimeout(function(){
-    if(doneCheck)return;doneCheck=true;
-    var old=document.getElementById('_jsonp_check');if(old)old.remove();
-    // Fail-open on timeout so a slow/offline network doesn't block legit new users,
-    // but the server will still enforce the duplicate block at final submit time.
-    btn.disabled=false;btn.textContent=origBtnText;
-    window.currentStep=1;showPage('page-match-M1');
-  },8000);
-  window._checkCallback=function(data){
-    if(doneCheck)return;doneCheck=true;clearTimeout(checkTimer);
-    var old=document.getElementById('_jsonp_check');if(old)old.remove();
-    btn.disabled=false;btn.textContent=origBtnText;
-    if(data&&data.already===true){
-      try{
-        var cached2=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
-        cached2[window.userName.toLowerCase()]=data.picks||{};
-        localStorage.setItem(STORAGE_KEY,JSON.stringify(cached2));
-      }catch(e){}
-      showAlreadyPage(window.userName,data.picks||{});
-      return;
-    }
-    window.currentStep=1;showPage('page-match-M1');
-  };
-  var q=new URLSearchParams();
-  q.set('check','1');q.set('name',window.userName);
-  q.set('tab',SHEET_TAB);q.set('k',_k);q.set('callback','_checkCallback');
-  checkScript.src=SCRIPT_URL+'?'+q.toString();
-  document.body.appendChild(checkScript);
+  // 2) Authoritative server check — the ONLY thing that matters after a
+  //    cache clear, since it queries the actual Google Sheet, not the browser.
+  //    This check is FAIL-CLOSED: if we can't get a clear answer from the
+  //    server, we do NOT let the user into the form. We retry, and only
+  //    show a "please try again" error — never silently proceed.
+  var origBtnText=btn.textContent;
+  btn.disabled=true;btn.textContent='Checking...';
+  var errEl=document.getElementById('name-check-err');
+  if(errEl){errEl.style.display='none';errEl.textContent='';}
+
+  var attempt=0,maxAttempts=3;
+  function runCheck(){
+    attempt++;
+    if(attempt>1)btn.textContent='Checking... ('+attempt+'/'+maxAttempts+')';
+    var doneCheck=false;
+    var checkScript=document.createElement('script');checkScript.id='_jsonp_check';
+    var checkTimer=setTimeout(function(){
+      if(doneCheck)return;doneCheck=true;
+      var old=document.getElementById('_jsonp_check');if(old)old.remove();
+      if(attempt<maxAttempts){runCheck();return;}
+      // FAIL-CLOSED: after exhausting retries, block entry and show an error
+      // instead of letting the user proceed unchecked.
+      btn.disabled=false;btn.textContent=origBtnText;
+      if(errEl){errEl.textContent='⚠️ Could not verify your entry. Please check your connection and try again.';errEl.style.display='block';}
+    },8000);
+    window._checkCallback=function(data){
+      if(doneCheck)return;doneCheck=true;clearTimeout(checkTimer);
+      var old=document.getElementById('_jsonp_check');if(old)old.remove();
+      btn.disabled=false;btn.textContent=origBtnText;
+      if(data&&data.already===true){
+        try{
+          var cached2=JSON.parse(localStorage.getItem(STORAGE_KEY)||'{}');
+          cached2[window.userName.toLowerCase()]=data.picks||{};
+          localStorage.setItem(STORAGE_KEY,JSON.stringify(cached2));
+        }catch(e){}
+        lockUserOut(window.userName,data.picks||{});
+        return;
+      }
+      if(data&&data.already===false){
+        window.currentStep=1;showPage('page-match-M1');
+        return;
+      }
+      // Ambiguous/error response from server — retry rather than assume "new user"
+      if(attempt<maxAttempts){runCheck();return;}
+      btn.textContent=origBtnText;
+      if(errEl){errEl.textContent='⚠️ Could not verify your entry. Please check your connection and try again.';errEl.style.display='block';}
+    };
+    var q=new URLSearchParams();
+    q.set('check','1');q.set('name',window.userName);
+    q.set('tab',SHEET_TAB);q.set('k',_k);q.set('callback','_checkCallback');
+    checkScript.src=SCRIPT_URL+'?'+q.toString();
+    document.body.appendChild(checkScript);
+  }
+  runCheck();
+}
+
+// Once a user is confirmed to have already submitted, permanently lock
+// them out of the prediction flow for the rest of this browser session —
+// they can only ever see their existing picks, never re-enter the form.
+function lockUserOut(name, savedPicks){
+  window.isLockedOut=true;
+  window.lockedPicks=savedPicks;
+  window.lockedName=name;
+  try{sessionStorage.setItem('locked_out','1');}catch(e){}
+  showAlreadyPage(name, savedPicks);
 }
 
 
@@ -684,6 +723,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   // ?reset=1 in URL clears localStorage (for testing/admin)
   if(new URLSearchParams(window.location.search).get('reset')==='1'){
     localStorage.removeItem(STORAGE_KEY);
+    try{sessionStorage.removeItem('locked_out');}catch(e){}
     console.log('localStorage cleared');
   }
 
@@ -692,6 +732,33 @@ document.addEventListener('DOMContentLoaded',()=>{
     if(sessionStorage.getItem('faceoff_seen')==='1'){
       const splash=document.getElementById('faceoff-splash');
       if(splash)splash.classList.add('hide');
+    }
+  }catch(e){}
+
+  // Restore lockout state if this session already confirmed a submission —
+  // re-verify with the server on reload rather than trusting a stale flag,
+  // so this can't be bypassed by tampering with sessionStorage alone.
+  try{
+    var wasLocked=sessionStorage.getItem('locked_out')==='1';
+    var savedName=sessionStorage.getItem('final_name');
+    if(wasLocked && savedName){
+      window.userName=savedName;
+      var q=new URLSearchParams();
+      q.set('check','1');q.set('name',savedName);
+      q.set('tab',SHEET_TAB);q.set('k',_k);q.set('callback','_reverifyCallback');
+      window._reverifyCallback=function(data){
+        var s=document.getElementById('_jsonp_reverify');if(s)s.remove();
+        if(data&&data.already===true){
+          window.isLockedOut=true;
+          showAlreadyPage(savedName, data.picks||{});
+        }
+        // If server says not-already, we leave the user on the name-entry
+        // page — no auto re-entry into the form without going through
+        // goEmail() again, which will re-verify from scratch.
+      };
+      var s2=document.createElement('script');s2.id='_jsonp_reverify';
+      s2.src=SCRIPT_URL+'?'+q.toString();
+      document.body.appendChild(s2);
     }
   }catch(e){}
 
